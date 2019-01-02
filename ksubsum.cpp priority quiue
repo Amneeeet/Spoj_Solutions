@@ -1,0 +1,65 @@
+#include<bits/stdc++.h>
+#define LL long long int
+#define s(a) scanf("%d",&a)
+#define w(t) while(t--)
+#define f(i,n) for(i=0;i<n;i++)
+#define fd(i,n) for(i=n-1;i>=0;i--)
+#define p(a) printf("%d",a)
+#define pl(a) printf("%lld",a)
+#define ps(a) printf("%s",a)
+#define pc(a) printf("%c",a)
+#define ent printf("\n")
+#define mod 1000000007
+#define PI 3.14159265
+#define gs getline(cin,s)
+#define pb push_back
+#define mp make_pair
+#define INF 1e18
+ 
+using namespace std;
+ 
+int arr[10005];
+int X[2015];
+ 
+int main()
+{
+	int t,i,j,n,k1,k2,k3,k,x;
+	s(t);
+	w(t)
+	{
+		priority_queue< int,vector<int>,greater<int> > Q;
+ 
+		s(n);s(k1);s(k2);s(k3);
+		for(i=1;i<=n;i++)
+		{
+		s(arr[i]);
+		arr[i]+=arr[i-1];// cumulative sums baby
+	//	cout<<arr[i]<<" ";
+		}
+		for(i=1;i<=n;i++)
+		{
+			for(j=i;j<=n;j++)
+			{
+				x=arr[j]-arr[i-1];
+				if(Q.size()<k3)
+				Q.push(x);
+				else
+				{
+					if(x>Q.top())// top is the smallest value bro
+					{
+						Q.pop();Q.push(x);
+					}
+				}
+			}
+		}
+		 k=k3;
+ 
+		while(!Q.empty())
+		{
+			X[k--]=Q.top();
+			Q.pop();
+		}
+		printf("%d %d %d\n",X[k1],X[k2],X[k3]);
+	}
+	return 0;
+}

@@ -1,0 +1,107 @@
+/*
+GREAT EXPLANATION 2 BUCKETS  LEFT AND RIGHT
+LEFT  RIGHT
+5      6
+4      7
+2      8
+1      9
+
+
+LIKE TSIS  LEFT HAS ALL THE ELEMENTS LESS THEN THE MEDIAN AND RIGHT HAS ALL THE ELEMENTS GREATER THAN THE MEDIAN
+*/
+
+/*
+===================================================
+expedi   greedy with heaps
+===================================================*/
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define pii pair < int , int >
+#define pb push_back
+#define mp make_pair
+#define mod 1000000009
+#define pql priority_queue<int , vector<int> , less<int> > // descending order
+struct trainer
+{
+    int dis;
+    int fuel;
+};
+bool compp(trainer a, trainer b)
+{
+    return a.dis<b.dis;
+}
+bool comp(trainer a, trainer b)
+{
+    return a.fuel<b.fuel;
+}
+int main(){
+    int t;
+    int n,b,l,d,f;
+    scanf("%d",&t);
+
+    while(t--)
+    {    
+        priority_queue<trainer, vector<trainer>, function<bool(trainer,trainer)> > p(comp);
+        cin>>n;
+        trainer ar[n+1];
+        for(int i=0;i<n;i++){
+        cin>>ar[i].dis>>ar[i].fuel;}
+        cin>>l>>b;
+        for(int i=0;i<n;i++)
+        {
+            ar[i].dis=l-ar[i].dis;
+            ar[i].fuel=ar[i].fuel;
+        }
+        sort(ar,ar+n,compp);
+        ar[n].dis=l;
+        ar[n].fuel=0;
+        
+        //for(int i=0;i<=n;i++)
+        //cout<<ar[i].dis<<" " <<ar[i].fuel<<endl;
+        
+        
+        
+        int count=0;
+        int flag=1;
+        for(int i=0;i<=n;i++)
+        {
+          if(ar[i].dis<=b)
+          {
+            p.push(ar[i]);// 5//2
+          }
+          else
+          {
+           while(b<ar[i].dis)//10<14//  b is 20
+           {
+            auto tp=p.top();
+            p.pop();
+            b+=tp.fuel;
+            //cout<<b<<endl;
+            count++;
+            if(p.size()==0)
+            break;
+           }
+           if(p.size()==0 && b<ar[i].dis){
+           flag=0;break;}
+           
+            p.push(ar[i]);//10
+          }
+     
+          if(ar[n].dis<=b){
+          flag=1;break;}
+          else
+          flag=0;
+          
+          
+        }
+        if(flag==1)
+        cout<<count<<endl;
+        else
+        cout<<"-1\n";
+        
+        
+        
+        
+        
+}}
